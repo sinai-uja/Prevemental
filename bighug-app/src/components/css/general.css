@@ -1,0 +1,75 @@
+.sub-title{
+    color: #fff;
+    text-align: center;
+}
+
+.text{
+    color: #fff;
+}
+
+.text-black{
+    color: rgb(0, 0, 0);
+}
+
+.box{
+    height: 100vh;
+    text-align: center;
+}
+
+.button-green{
+    border: 0px;
+    width: 92%;
+    border-radius: 8px;
+    margin-top: 0%;
+    font-size: 100%;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: rgb(98, 155, 240);
+}
+
+
+.button-red{
+    border: 0px;
+    width: 92%;
+    border-radius: 8px;
+    margin-top: 0%;
+    font-size: 100%;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.btn:hover{
+    color: #ffffff;
+    background-color: rgb(253, 0, 0);
+}
+
+.card-title{
+    align-self: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+hr{
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 2.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 3px;
+    color: #fff;
+}
+
+
+.card{
+    background-color: #F0F8FF;
+}
+
+/*
+.card{
+    border: none;
+    background-color: #ffffff;
+}*/
+
+.registro{
+    font-size: 80%;
+}

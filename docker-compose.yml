@@ -1,0 +1,20 @@
+version: '3.7'
+services: 
+    backend:
+        container_name: backend
+        build: 
+            context: ./backend/
+            dockerfile: Dockerfile
+        ports:
+            - "5500:5500"
+        restart: always
+    nginx:
+        depends_on: 
+            - backend
+        container_name: proxy-app
+        build: 
+            context: ./bighug-app/
+            dockerfile: Dockerfile
+        ports: 
+            - "8008:8008"
+        restart: always

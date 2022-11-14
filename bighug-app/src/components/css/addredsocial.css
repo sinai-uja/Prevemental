@@ -1,0 +1,36 @@
+.boton-add{
+    font-size: 2.0em;
+    padding: 15px 32px;
+    border-radius: 30px;
+    text-align: center;
+    display: inline-block;
+}
+
+.img-setting{
+    width: 65px !important;
+    height: auto;
+    margin-left: 0px !important;
+    margin-right: 20px !important;
+}
+
+.text-button{
+    color: rgb(0, 0, 0);
+    font-style: normal;
+}
+
+.card-title-tras{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 30px 28px;
+}
+
+.card{
+    border-radius: 10px;
+}
+
+.score-meter{
+    padding: 20px 22px;
+    margin-left: 60px !important;
+    margin-bottom: -12px !important;
+    
+}
