@@ -4,5 +4,5 @@ Información sobre el proyecto
 
 ## Guía de instalación
 
-Guía para el backend [aquí](backend/README.md)
-Guía para el frontend [aquí](frontend/README.md)
+1. Guía para el backend [aquí](backend/README.md)
+2. Guía para el frontend [aquí](frontend/README.md)

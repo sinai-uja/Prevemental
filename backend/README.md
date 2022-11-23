@@ -1,5 +1,8 @@
 # PREVEMENTAL
 
+## Prerequisitos
+1. Python<=3.9
+
 ## Guía de instalación
 Desde el interior de la carpeta backend del proyecto:
 
