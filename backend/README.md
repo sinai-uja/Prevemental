@@ -1,6 +1,6 @@
 # PREVEMENTAL
 
-## Prerequisitos
+## Prerrequisitos
 1. Python<=3.9
 
 ## Guía de instalación
