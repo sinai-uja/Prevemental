@@ -1,0 +1,53 @@
+/* ---- Pantalla grande ---- */
+@media (min-width: 400px){
+    .img-add{
+        width: 70%;
+        height: auto;
+    }
+
+    .img-add2{
+        width: 40%;
+        height: auto;
+    }
+
+}
+
+/* ---- Pantalla pequeña ---- */
+@media (max-width: 399.99px){
+    .img-add{
+        width: 80%;
+        height: auto;
+    }
+
+    .img-add2{
+        width: 50%;
+        height: auto;
+    }
+
+}
+
+
+.d-flex{
+    justify-content: center;
+}
+
+button{
+    background-color: transparent;
+    border-width: 0px !important;
+}
+
+.grid{
+    width: 100%;
+    height: auto;
+    margin: 10%;
+}
+
+.iz-pad{
+    margin-left: 15%;
+    margin-top: 15%;
+}
+
+.der-pad{
+    margin-right: 15%;
+    margin-top: 15%;
+}

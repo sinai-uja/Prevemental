@@ -1,0 +1,52 @@
+/* ---- Pantalla grande ---- */
+@media (min-width: 400.00px){
+    .grid2{
+        width: 30%;
+        height: auto;
+        margin: 10%;
+    }
+
+    .card-img{
+        align-self: center;
+        width: 60% ;
+        height: auto;
+        
+    }
+
+    /*
+    .card{
+        background-color: transparent;
+        margin-top: 10px;
+        border-radius: 30px;
+        border-color: transparent;
+    }*/
+
+    .card{
+        margin-top: 10px;
+        border-radius: 30px;
+    }
+
+    .grid2:hover {
+        background-color: rgb(191, 234, 241);
+    }
+
+    .nombre-user{
+        margin-top: 10%;
+        font-size: 140%;
+    }
+}
+
+/* ---- Pantalla pequeña ---- */
+@media (max-width: 399.99px){
+    .grid2{
+        width: 30%;
+        height: auto;
+        margin: 10%;
+    }
+
+    .nombre-user{
+        margin-top: 10%;
+        font-size: 90%;
+    }
+
+}

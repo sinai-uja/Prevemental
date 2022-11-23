@@ -1,0 +1,32 @@
+/* ---- Pantalla grande ---- */
+@media (min-width: 700px){
+    
+    .title{
+        color: #fff;
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 10%;
+        font-size: 80px;
+        border: 1px;  
+    }
+}
+
+/* ---- Pantalla pequeña ---- */
+@media (max-width: 699.98px){
+    
+    .title{
+        color: #fff;
+        text-align: center;
+        padding-top: 40px;
+        padding-bottom: 10%;
+        font-size: 60px;
+        border: 1px;  
+    }
+}
+
+.error-message{
+    color: red;
+    font-size: 80%;
+    font-weight: bold;
+    margin-top: 5%;
+}
