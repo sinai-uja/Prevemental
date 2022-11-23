@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy.orm import Session
 
 from . import models, schemas, security
@@ -13,7 +15,8 @@ def create_supervisor(db: Session, supervisor: schemas.SupervisorCreate):
     hashed_password = security.get_password_hash(supervisor.password)
     db_supervisor = models.Supervisor(
         email=supervisor.email, 
-        hashed_password=hashed_password
+        hashed_password=hashed_password,
+        is_admin=False
     )
     db.add(db_supervisor)
     db.commit()
@@ -90,8 +93,13 @@ def create_social_network(
     social_network: schemas.SocialNetworkCreate, 
     user_id: int
 ):
+    # TODO: Encrypt password
+    encrypted_password = social_network.password
+
     db_social_network = models.SocialNetwork(
-        **social_network.dict(),
+        name=social_network.name,
+        email=social_network.email,
+        encrypted_password=encrypted_password,
         user_id=user_id
     )
     db.add(db_social_network)
@@ -99,6 +107,16 @@ def create_social_network(
     db.refresh(db_social_network)
     return db_social_network
 
+def get_social_network(
+    db: Session,
+    social_network_id: int
+):
+    return db.get(models.SocialNetwork, social_network_id)
+
+def get_all_social_networks(
+    db: Session
+):
+    return db.query(models.SocialNetwork).all()
 
 def delete_social_network(
     db: Session,
@@ -110,3 +128,21 @@ def delete_social_network(
     db.delete(social_network)
     db.commit()
     return True
+
+
+# ---------- SCORE METHODS ----------
+def create_score(
+    db: Session,
+    score: schemas.ScoreCreate,
+    social_network_id
+):
+    db_score = models.Score(
+        **score.dict(),
+        date = datetime.date.today(),
+        social_network_id = social_network_id
+    )
+
+    db.add(db_score)
+    db.commit()
+    db.refresh(db_score)
+    return db_score

@@ -1,10 +1,7 @@
-import os
-
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 from . import crud, schemas, security, models
 from .database import SessionLocal, engine, Base
@@ -33,7 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # ---------- SUPERVISOR ENDPOINTS ----------
 @app.post("/register", response_model=schemas.Supervisor, tags=["Supervisor"])
@@ -176,15 +172,6 @@ def delete_user(
         detail="User not found"
     )
 
-# @app.get("/users/profile-images", tags=["User"])
-# def get_profile_images():
-#     """Gets all the available profile image names to be accesed at 
-#     /users/images/{image_name.png}.
-#     """
-
-#     return os.listdir("static/images")
-
-
 # ---------- SOCIAL NETWORK ENDPOINTS ----------
 @app.get("/users/{user_id}/social-networks", tags=["Social Network"])
 def get_social_networks(
@@ -210,12 +197,12 @@ def get_social_networks(
     return user.social_networks
 
 @app.post(
-    "/users/{user_id}/social-networks/{social_network}", 
+    "/users/{user_id}/social-networks", 
     tags=["Social Network"]
 )
 def create_social_network(
     user_id: int,
-    social_network: schemas.SocialNetworkType,
+    social_network: schemas.SocialNetworkCreate,
     supervisor: models.Supervisor = Depends(get_current_supervisor),
     db: Session = Depends(get_db)
 ):
@@ -235,18 +222,16 @@ def create_social_network(
         )        
 
     # Create social network
-    social_network_model = schemas.SocialNetworkCreate(name=social_network)
-    social_network = crud.create_social_network(db, social_network_model, user_id)
+    social_network = crud.create_social_network(db, social_network, user_id)
 
     return social_network
 
 @app.put(
-    "/users/{user_id}/social-networks/{social_network_id}", 
+    "/users/{user_id}/social-networks", 
     tags=["Social Network"]
 )
 def update_social_network(
     user_id: int,
-    social_network_id: int,
     supervisor: models.Supervisor = Depends(get_current_supervisor),
     db: Session = Depends(get_db)
 ):
@@ -294,3 +279,50 @@ def delete_social_network(
             detail="User not found"
         )
     return {"ok": True}
+
+
+# ---------- SCORES ENDPOINTS ----------
+@app.post("/upload-scores/{social_network_id}", tags=["Admin"])
+def upload_scores(
+    social_network_id: int,
+    score: schemas.ScoreCreate,
+    supervisor: models.Supervisor = Depends(get_current_supervisor),
+    db: Session = Depends(get_db)
+):
+    # Check if supervisor is admin
+    if not supervisor.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You must be admin to use this"
+        )
+
+    # Get social network
+    social_network = crud.get_social_network(db, social_network_id)
+    if not social_network:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Social network not found"
+        )
+    
+    # TODO: What if there's already a score for today?
+    #   1. Raise an error
+    #   2. Replace values
+
+    # Create scores
+    new_score = crud.create_score(db, score, social_network_id)
+
+    # Return updated scores
+    return new_score
+
+@app.get("/all-social-networks", tags=["Admin"])
+def get_all_social_networks(
+    supervisor: models.Supervisor = Depends(get_current_supervisor),
+    db: Session = Depends(get_db)
+):
+    # Check if supervisor is admin
+    if not supervisor.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You must be admin to use this"
+        )
+    return crud.get_all_social_networks(db)

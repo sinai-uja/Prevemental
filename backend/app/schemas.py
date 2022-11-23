@@ -1,6 +1,6 @@
 from typing import Optional
 from enum import Enum
-
+import datetime
 from pydantic import BaseModel, Field, EmailStr
 
 
@@ -12,6 +12,23 @@ class Token(BaseModel):
 class TokenPayload(BaseModel):
     sub: Optional[int] = None
 
+# ---------- SCORES SCHEMAS ----------
+class ScoreBase(BaseModel):
+    score_1: float = 0.0
+    score_2: float = 0.0
+    score_3: float = 0.0
+    score_4: float = 0.0
+    
+class ScoreCreate(ScoreBase):
+    pass
+
+class Score(ScoreBase):
+    id: int = Field(default=1, gt=0)
+    social_network_id: int = Field(default=1, gt=0)
+    date: datetime.date = datetime.date.today()
+
+    class Config:
+        orm_mode = True
 
 # ---------- SOCIAL NETWORK SCHEMAS ----------
 class SocialNetworkType(str, Enum):
@@ -20,19 +37,20 @@ class SocialNetworkType(str, Enum):
 
 class SocialNetworkBase(BaseModel):
     name: SocialNetworkType
-    score_1: float = 0.0
-    score_2: float = 0.0
-    score_3: float = 0.0
-    score_4: float = 0.0
+    email: EmailStr
 
 class SocialNetworkCreate(SocialNetworkBase):
-    pass
+    password: str
 
 class SocialNetwork(SocialNetworkBase):
     id: int = Field(gt=0)
+    scores: list[Score] = []
     
     class Config:
         orm_mode = True
+
+class SocialNetworkDB(SocialNetwork):
+    encrypted_password: str
 
 # ---------- USER SCHEMAS ----------
 class UserBase(BaseModel):
@@ -62,6 +80,7 @@ class SupervisorCreate(SupervisorBase):
 
 class Supervisor(SupervisorBase):
     id: int = Field(get=0)
+    is_admin: bool = False
     users: list[User] = []
 
     class Config:
