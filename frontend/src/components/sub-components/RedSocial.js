@@ -8,6 +8,7 @@ import desplegable1 from '../images/desplegable1.png'
 import desplegable2 from '../images/desplegable2.png'
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 //*TODO -- Apartado red social utilizado en MiCuenta --
 
@@ -28,7 +29,13 @@ const RedSocial = (props) => {
     const [activo3, setActivo3] = useState(false);
     const [activo4, setActivo4] = useState(false);
 
+    const [graficascore, setGraficascore] = useState(null);
+
     const navigate = useNavigate();
+
+    var auth = "Bearer "
+    var url = "https://bighug.ujaen.es/api/scores/"
+    const token = localStorage.getItem("accesstoken")
 
     const colores = ["#29ff3d", "#61f509", "#80ea00", "#97df00", "#aad400",
                         "#bac800", "#c9bc00", "#d5af00", "#e0a200", "#e99400",
@@ -44,6 +51,31 @@ const RedSocial = (props) => {
         if(props.name === "instagram"){
             setTextoredsocial("Instagram")
             setImagenredsocial(instagram)
+        }
+
+        if(props.tipo !== "resumen"){
+            auth = auth + token
+            url = url + props.idred
+    
+            console.log(url)
+    
+            const config = {
+                headers:{
+                'Authorization': auth,
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+                }
+            };
+            
+            axios.get(
+                url,
+                config
+            )
+            .then(
+                resp => {
+                    console.log(resp.data)
+                    setGraficascore(resp.data)
+            });
         }
 
     }, []);
@@ -133,19 +165,31 @@ const RedSocial = (props) => {
 
     //** -- Desplegable --
     function Desplegable(props){
-
-        return(
-            <div style={{display : props.estado}}>
-                <div key={"desplegable"} className='container-desplegable'>
-                    <Grafica />
+        if(graficascore){
+            return(
+                <div style={{display : props.estado}}>
+                    <div key={"desplegable"} className='container-desplegable'>
+                        <Grafica scores={graficascore} tipo={props.desplegable}/>
+                    </div>
+                    <div className='text-desplegable-div'>
+                        <span className='text-desplegable'>Si necesita ayuda pulse&nbsp;</span>
+                        <span className='text-desplegable-href' onClick={() => redirect(props.desplegable)}>aquí</span>
+                    </div>
                 </div>
-                <div className='text-desplegable-div'>
-                    <span className='text-desplegable'>Si necesita ayuda pulse&nbsp;</span>
-                    <span className='text-desplegable-href' onClick={() => redirect(props.desplegable)}>aquí</span>
+            )
+        }else{
+            return(
+                <div style={{display : props.estado}}>
+                    <div key={"desplegable"} className='container-desplegable'>
+                        
+                    </div>
+                    <div className='text-desplegable-div'>
+                        <span className='text-desplegable'>Si necesita ayuda pulse&nbsp;</span>
+                        <span className='text-desplegable-href' onClick={() => redirect(props.desplegable)}>aquí</span>
+                    </div>
                 </div>
-            </div>
-        )
-
+            )
+        }
     }
 
     //** -- Componente barra --
@@ -190,36 +234,70 @@ const RedSocial = (props) => {
             </div>
         )
 
-        if(props.id === "1"){
-            row.push(
-                <div className="col-3 div-info" key={props.id + "1"}>
-                    <img className='img-info' src={imagendesplegable1} onClick={() => desplegable_action("1")} alt='desplegable'></img>
-                </div>
-            )
-        }
-
-        if(props.id === "2"){
-            row.push(
-                <div className="col-3 div-info" key={props.id + "2"}>
-                    <img className='img-info' src={imagendesplegable2} onClick={() => desplegable_action("2")} alt='desplegable'></img>
-                </div>
-            )
-        }
-
-        if(props.id === "3"){
-            row.push(
-                <div className="col-3 div-info" key={props.id + "3"}>
-                    <img className='img-info' src={imagendesplegable3} onClick={() => desplegable_action("3")} alt='desplegable'></img>
-                </div>
-            )
-        }
-
-        if(props.id === "4"){
-            row.push(
-                <div className="col-3 div-info" key={props.id + "4"}>
-                    <img className='img-info' src={imagendesplegable4} onClick={() => desplegable_action("4")} alt='desplegable'></img>
-                </div>
-            )
+        if(props.tipo === "resumen"){
+            if(props.id === "1"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "1"}>
+                        <img className='img-info'></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "2"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "2"}>
+                        <img className='img-info'></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "3"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "3"}>
+                        <img className='img-info'></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "4"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "4"}>
+                        <img className='img-info'></img>
+                    </div>
+                )
+            }
+        }else{
+            if(props.id === "1"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "1"}>
+                        <img className='img-info' src={imagendesplegable1} onClick={() => desplegable_action("1")}></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "2"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "2"}>
+                        <img className='img-info' src={imagendesplegable2} onClick={() => desplegable_action("2")}></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "3"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "3"}>
+                        <img className='img-info' src={imagendesplegable3} onClick={() => desplegable_action("3")}></img>
+                    </div>
+                )
+            }
+    
+            if(props.id === "4"){
+                row.push(
+                    <div className="col-3 div-info" key={props.id + "4"}>
+                        <img className='img-info' src={imagendesplegable4} onClick={() => desplegable_action("4")}></img>
+                    </div>
+                )
+            }
         }
 
         return <div className='d-flex justify-content-center'>{row}</div>
@@ -235,72 +313,37 @@ const RedSocial = (props) => {
                 </div>
                 <hr className='linea-color'></hr>
                 
-                <Bar id={"1"} nombre={"Ansiedad: "} score={"50"}/>
-                <Desplegable desplegable={"ansiedad"} estado={estadoDesplegable1}/>
-                <Bar id={"2"} nombre={"Depresión: "} score={"43"}/>
-                <Desplegable desplegable={"depresion"} estado={estadoDesplegable2}/>
-                <Bar id={"3"} nombre={"TCA: "} score={"72"}/>
-                <Desplegable desplegable={"tca"} estado={estadoDesplegable3}/>
-                <Bar id={"4"} nombre={"Ludopatía: "} score={"12"}/>
-                <Desplegable desplegable={"ludopatia"} estado={estadoDesplegable4}/>
+                <Bar id={"1"} nombre={"Ansiedad: "} score={props.score1_resumen} tipo={"resumen"}/>
+                <Bar id={"2"} nombre={"Depresión: "} score={props.score2_resumen} tipo={"resumen"}/>
+                <Bar id={"3"} nombre={"TCA: "} score={props.score3_resumen} tipo={"resumen"}/>
+                <Bar id={"4"} nombre={"Ludopatía: "} score={props.score4_resumen} tipo={"resumen"}/>
                 
                 <div className='py-4'></div>
             </div>
         )
     }else{
-        //*! Para añadir scores de la BBDD
-        //*! <Bar nombre={"Trastorno 3"} score={props.score1}/>
-
         return (
             <div className='container'>
                 <div className='inline'>
-                    <img className='img-red' src={imagenredsocial} alt='img-redsocial'></img>
+                    <img className='img-red' src={imagenredsocial}></img>
                     <h5 className='text-email'>{textoredsocial}</h5>
                     <a className='setting-padding'><Settings tipo={"redsocial"} idred={props.idred} nombre={props.name}/></a>
                 </div>
                 <hr className='linea-color'></hr>
                 
-                <Bar id={"1"} nombre={"Ansiedad: "} score={"71"}/>
+                <Bar id={"1"} nombre={"Ansiedad: "} score={props.score1*100}/>
                 <Desplegable desplegable={"ansiedad"} estado={estadoDesplegable1}/>
-                <Bar id={"2"} nombre={"Depresión: "} score={"91"}/>
+                <Bar id={"2"} nombre={"Depresión: "} score={props.score2*100}/>
                 <Desplegable desplegable={"depresion"} estado={estadoDesplegable2}/>
-                <Bar id={"3"} nombre={"TCA: "} score={"12"}/>
+                <Bar id={"3"} nombre={"TCA: "} score={props.score3*100}/>
                 <Desplegable desplegable={"tca"} estado={estadoDesplegable3}/>
-                <Bar id={"4"} nombre={"Ludopatía: "} score={"37"}/>
+                <Bar id={"4"} nombre={"Ludopatía: "} score={props.score4*100}/>
                 <Desplegable desplegable={"ludopatia"} estado={estadoDesplegable4}/>
                 
                 <div className='py-4'></div>
             </div>
         )
     }
-
-    /*
-    ? PLACEHOLDER PARA VER LAS BARRAS
-    return (
-        <div className='container'>
-            <div className='inline'>
-                <img className='img-red' src={imagenredsocial}></img>
-                <h5 className='text-email'>EMAIL</h5>
-                <a className='setting-padding'><Settings tipo={"redsocial"} idred={props.idred} nombre={props.name}/></a>
-            </div>
-            <hr className='linea-color'></hr>
-
-            
-            <Bar nombre={"Trastorno 1"} score={"11"}/>
-            <Bar nombre={"Trastorno 2"} score={"21"}/>
-            <Bar nombre={"Trastorno 3"} score={"31"}/>
-            <Bar nombre={" Trastorno 4"} score={"42"}/>
-            <Bar nombre={"Trastorno 1"} score={"53"}/>
-            <Bar nombre={"Trastorno 2"} score={"61"}/>
-            <Bar nombre={"Trastorno 3"} score={"72"}/>
-            <Bar nombre={" Trastorno 4"} score={"83"}/>
-            <Bar nombre={"Trastorno 3"} score={"91"}/>
-            <Bar nombre={" Trastorno 4"} score={"100"}/>
-            
-
-            <div className='py-4'></div>
-        </div>
-    )*/
 }
 
 export default RedSocial

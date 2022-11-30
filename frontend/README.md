@@ -16,7 +16,7 @@ Prerequisitos para Windows:
 
 Pasos:
 
-- Clonar este repositorio
+- Clonar: **git clone https://github.com/ajgm0018/bighug-app.git**
 
 - Eliminar el archivo **/package-lock.json** y **node_modules**
 

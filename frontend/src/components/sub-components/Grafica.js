@@ -16,12 +16,34 @@ const Grafica = (props) => {
     const colorPrimarioTras = "rgba(98,155,240,0.4)"
     const colorFondo = "rgba(240,248,255,1)"
 
+    const scores = props.scores
+
+    // Fechas
+    var fechas = []
+    for(const i in scores){
+        fechas.push(scores[i].date)
+    }
+
+    // Scores
+    var scores_ = []
+    for(const i in scores){
+        if(props.tipo === "ansiedad"){
+            scores_.push(scores[i].score_1)
+        }else if(props.tipo === "depresion"){
+            scores_.push(scores[i].score_2)
+        }else if(props.tipo === "tca"){
+            scores_.push(scores[i].score_3)
+        }else if(props.tipo === "ludopatia"){
+            scores_.push(scores[i].score_4)
+        }
+    }
+
     const [data, setData] = useState({
-        labels:["1 nov", "2 nov", "3 nov", "4 nov", "5 nov"],
+        labels:fechas,
         datasets:[
             {
                 label: "Riesgo",
-                data: [21, 43, 32, 50, 70],
+                data: scores_,
                 backgroundColor: colorFondo,
                 borderColor: colorPrimarioTras,
                 tension: 0.3,
@@ -46,7 +68,7 @@ const Grafica = (props) => {
             },
             y:{
                 min: 0,
-                max: 100
+                max: 1
             }
         }
     }

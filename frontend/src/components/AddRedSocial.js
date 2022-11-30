@@ -14,66 +14,86 @@ const AddRedSocial = () => {
 
     // Valor por defecto es twitter
     const [redsocial, setRedsocial] = useState("twitter");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const [message2, setMessage2] = useState("");
     const token = localStorage.getItem("accesstoken")
     const userid = localStorage.getItem("idusuario")
     var auth = "Bearer "
     ////var url = "http://localhost:8000/users/"
     var url = "https://bighug.ujaen.es/api/users/"
 
-    /**
-    *? VALIDACION A LA ESPERA DE QUE HACER CON ESTA VISTA
-    const confirmacion1 = false
-    const confirmacion2 = false
+
     const Validation = () =>{
-        const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g
-        if(regEx.test(email)){
-            confirmacion1 = true;
-            setMessage("")
-        }else if (!regEx.test(email) && email !== ""){
-            confirmacion1 = false;
-            setMessage("El email no es valido")
-        }else if (email === ""){
-            confirmacion1 = false;
+
+        var confirmacion1 = false;
+        var confirmacion2 = false;
+
+        if(email === ""){
             setMessage("Este campo es obligatorio")
+            confirmacion1 = false
         }else{
-            confirmacion1 = true;
             setMessage("")
+            confirmacion1 = true
         }
+
+        if(password === ""){
+            setMessage2("Este campo es obligatorio")
+            confirmacion2 = false
+        }else{
+            setMessage2("")
+            confirmacion2 = true
+        }
+
+        if(confirmacion1 && confirmacion2){
+            return true
+        }else{
+            return false
+        }
+
     }
-    */
 
     useEffect(() => {
         auth = auth + token
-        url = url + userid + "/social-networks/" + redsocial
+        ////url = url + userid + "/social-networks/" + redsocial
+        url = url + userid + "/social-networks"
         //console.log("Auth: " + auth)
         //console.log("Url: " + url)
-    }, [redsocial]);
+    }, [email, redsocial, password]);
 
     //** -- Tratamiento cuando se envía formulario --
     const handleSubmit = (event) =>{
         event.preventDefault();
 
-        const config = {
-            headers:{
-            'Authorization': auth,
-            'Accept' : 'application/json',
-            'Content-Type': 'application/json'
-            }
-        };
+        const confirmPost = Validation();
 
-        const bodyParameters = {
-            key: "value"
-        };
+        if(confirmPost){
+            const config = {
+                headers:{
+                'Authorization': auth,
+                ////'Accept' : 'application/json',
+                ////'Content-Type': 'application/json'
+                }
+            };
 
-        axios.post(
-            url,
-            bodyParameters,
-            config
-        )
-        ////.then(console.log).catch(console.log);
+            const bodyParameters = {
+                name: redsocial,
+                email: email,
+                password: password
+            };
 
-        alert('Se ha registrado con exito')
-        navigate('/perfilusuario')
+            axios.post(
+                url,
+                bodyParameters,
+                config
+            ).then(console.log).catch(console.log);
+
+            alert('Se ha registrado con exito')
+            navigate('/perfilusuario')
+        }else{
+            console.log("Hay algún error")
+        }
     }
 
     //** -- Tratamiento recoger select --
@@ -95,7 +115,7 @@ const AddRedSocial = () => {
                     <form method='post' onSubmit={handleSubmit}>
                     <div className='d-flex'>
                         <div className='row justify-content-center py-3'>
-                            <img src={red_social} className='img-add2' alt='img-redsocial'></img>
+                            <img src={red_social} className='img-add2'></img>
                         </div>
                     </div>
 
@@ -113,11 +133,13 @@ const AddRedSocial = () => {
                                         <input
                                             id="email"
                                             type="email" 
+                                            value={email} 
+                                            onChange={(e) => setEmail(e.target.value)}
                                             className="form-control" 
                                             placeholder="Email">
                                         </input>
                                         <div>
-                                            <p className='error-message'></p>
+                                            <p className='error-message'>{message}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -127,10 +149,12 @@ const AddRedSocial = () => {
                                         <input 
                                             type="password"
                                             className="form-control"
+                                            value={password} 
+                                            onChange={(e) => setPassword(e.target.value)}
                                             placeholder="Contraseña">
                                         </input>
                                         <div>
-                                            <p className='error-message'></p>
+                                            <p className='error-message'>{message2}</p>
                                         </div>
                                     </div>
                                 </div>
