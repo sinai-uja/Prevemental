@@ -87,12 +87,13 @@ const AddRedSocial = () => {
                 url,
                 bodyParameters,
                 config
-            ).then(console.log).catch(console.log);
+            )
+            ////.then(console.log).catch(console.log);
 
             alert('Se ha registrado con exito')
             navigate('/perfilusuario')
         }else{
-            console.log("Hay algún error")
+            ////console.log("Hay algún error")
         }
     }
 

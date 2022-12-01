@@ -98,7 +98,7 @@ const PerfilUsuario = () => {
             }
 
             for (const i in redessociales){  
-                console.log(redessociales[i]['scores'])    
+                ////console.log(redessociales[i]['scores'])    
                 if(redessociales[i]['scores'].length === 0){
                     row.push(
                         <div key={i}>

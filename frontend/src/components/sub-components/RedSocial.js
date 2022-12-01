@@ -57,7 +57,7 @@ const RedSocial = (props) => {
             auth = auth + token
             url = url + props.idred
     
-            console.log(url)
+            ////console.log(url)
     
             const config = {
                 headers:{
@@ -73,7 +73,7 @@ const RedSocial = (props) => {
             )
             .then(
                 resp => {
-                    console.log(resp.data)
+                    ////console.log(resp.data)
                     setGraficascore(resp.data)
             });
         }
@@ -82,7 +82,7 @@ const RedSocial = (props) => {
 
     function desplegable_action(id){
 
-        //console.log(localStorage.getItem("emailsupervisor"))
+        ////console.log(localStorage.getItem("emailsupervisor"))
 
         setImagendesplegable1(desplegable1)
         if(activo1){

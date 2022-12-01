@@ -1,10 +1,10 @@
-
 import React from 'react'
 import './css/general.css';
 import './css/navbar.css';
 import Settings from './sub-components/Settings'
 import NavbarMain from './sub-components/NavbarMain';
 import Back from './sub-components/Back';
+import InfoPrivacidadBoton from './sub-components/InfoPrivacidadBoton'
 
 //*TODO -- Configuración de Navbar --
 
@@ -12,7 +12,7 @@ const Navbar = (props) => {
 
     // --- FUNCIONES --- //
     function ConfigNavbar(){
-        //console.log(props.vista)
+        ////console.log(props.vista)
         const row = []
         if(props.vista === "iniciar-registrar"){
             row.push(
@@ -27,6 +27,7 @@ const Navbar = (props) => {
             row.push(
                 <div key="dashboard">
                     <Settings tipo={"cuenta"} nombre={props.nombre} />
+                    <InfoPrivacidadBoton/>
                 </div>
             )
         }
