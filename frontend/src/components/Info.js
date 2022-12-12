@@ -106,7 +106,7 @@ const Info = () => {
                 if(localStorage.getItem("infored") === "privacidad"){
                     return(
                         <div>
-                            <Navbar vista={"home"} nombre = {"Protección de datos"}/>
+                            <Navbar vista={"home"} nombre = {"Información Prevemental"}/>
                             <div className='container'>
                                 <p className='text-help'>
                                 El responsable del tratamiento de los datos personales tratados con ocasión del Proyecto de Investigación
@@ -140,6 +140,10 @@ const Info = () => {
                                 target="_blank">
                                 Consejo de Transparencia y Protección de Datos de Andalucía
                                 </a>
+                                <p className='text-help'>
+                                Prevemental es el resultado del proyecto "Big Hug: Artificial intelligence for the protection of digital societies".
+                                Financiado por la Junta de Andalucía y realizado por el grupo de investigación SINAI de la Universidad de Jaén.
+                                </p>
                                 <p></p>
                             </div>
                         </div>
