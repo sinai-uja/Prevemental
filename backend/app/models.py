@@ -42,5 +42,5 @@ class Score(Base):
     score_2 = Column(Integer)
     score_3 = Column(Integer)
     score_4 = Column(Integer)
-    date = Column(Date, unique=True)
+    date = Column(Date)
     social_network_id = Column(Integer, ForeignKey("social_networks.id"))

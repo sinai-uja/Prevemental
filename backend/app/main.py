@@ -173,7 +173,11 @@ def delete_user(
     )
 
 # ---------- SOCIAL NETWORK ENDPOINTS ----------
-@app.get("/users/{user_id}/social-networks", tags=["Social Network"])
+@app.get(
+    "/users/{user_id}/social-networks", 
+    response_model=list[schemas.SocialNetwork],
+    tags=["Social Network"]
+)
 def get_social_networks(
     user_id: int,
     supervisor: models.Supervisor = Depends(get_current_supervisor),
@@ -282,6 +286,26 @@ def delete_social_network(
 
 
 # ---------- SCORES ENDPOINTS ----------
+@app.get("/scores/{social_network_id}", tags=["Scores"])
+def get_scores(
+    social_network_id: int,
+    limit: int = 5,
+    supervisor: models.Supervisor = Depends(get_current_supervisor),
+    db: Session = Depends(get_db)
+):
+    # Get social network
+    social_network = crud.get_social_network(db, social_network_id)
+
+    if not social_network:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Social network not found"
+        )
+    
+    scores = crud.get_scores(db, social_network_id, limit)
+
+    return scores
+
 @app.post("/upload-scores/{social_network_id}", tags=["Admin"])
 def upload_scores(
     social_network_id: int,

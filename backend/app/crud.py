@@ -131,6 +131,24 @@ def delete_social_network(
 
 
 # ---------- SCORE METHODS ----------
+def get_scores(
+    db: Session,
+    social_network_id: int,
+    limit = 5
+):
+    scores = db.query(
+        models.Score
+    ).filter(
+        models.Score.social_network_id == social_network_id
+    ).order_by(
+        models.Score.date.desc()
+    ).limit(
+        limit
+    ).all()
+    
+    return scores
+
+
 def create_score(
     db: Session,
     score: schemas.ScoreCreate,
