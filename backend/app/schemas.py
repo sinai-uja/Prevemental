@@ -50,7 +50,7 @@ class SocialNetwork(SocialNetworkBase):
         orm_mode = True
 
 class SocialNetworkDB(SocialNetwork):
-    encrypted_password: str
+    encrypted_password: bytes
 
 # ---------- USER SCHEMAS ----------
 class UserBase(BaseModel):

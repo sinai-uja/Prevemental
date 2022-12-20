@@ -226,7 +226,10 @@ def create_social_network(
         )        
 
     # Create social network
-    social_network = crud.create_social_network(db, social_network, user_id)
+    try:
+        social_network = crud.create_social_network(db, social_network, user_id)
+    except:
+        print("AAAAAAGH")
 
     return social_network
 

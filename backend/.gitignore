@@ -54,3 +54,6 @@ docs/_build/
 
 # Environments
 venv/
+
+# Secrets
+config.yaml

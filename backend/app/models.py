@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Date, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Date, Boolean, VARBINARY
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -30,7 +30,7 @@ class SocialNetwork(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     email = Column(String)
-    encrypted_password = Column(String)
+    encrypted_password = Column(VARBINARY(512))
     user_id = Column(Integer, ForeignKey("users.id"))
 
     scores = relationship("Score", cascade="all,delete")

@@ -1,20 +1,22 @@
-from datetime import datetime, timedelta
-from typing import Optional, Any, Union
+from typing import Any, Union
+import yaml
 
 from jose import jwt
-
 from passlib.context import CryptContext
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 
 
-# to get a string like this run:
+with open("/home/jcollado/projects/prevemental/backend/config.yaml", "r") as ymlfile:
+    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+# ------- ACCOUNT SECURITY -------
+# to get a new secret key run:
 # openssl rand -hex 32
-SECRET_KEY = "480fd360e33fae2e352f1bcb80f3d9e5101cea49bd812a87f30998c4b928c30e"
-ALGORITHM = "HS256"
+SECRET_KEY = cfg["account"]["secret_key"]
+ALGORITHM = cfg["account"]["algorithm"]
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -33,3 +35,17 @@ def create_access_token(subject: Union[str, Any]):
     to_encode = {"sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+def rsa_encrypt(plain_text):
+    try:
+        print("*"*50)
+        print(plain_text)
+        encoded_message = bytes(plain_text, "utf-8")
+        print(encoded_message)
+        print("*"*50)
+        key = RSA.importKey(open("/home/jcollado/id_rsa_alberto.pub").read())
+        cipher = PKCS1_OAEP.new(key)
+        ciphertext = cipher.encrypt(encoded_message)
+    except:
+        print("ERROR!")
+    return ciphertext

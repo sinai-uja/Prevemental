@@ -93,8 +93,10 @@ def create_social_network(
     social_network: schemas.SocialNetworkCreate, 
     user_id: int
 ):
-    # TODO: Encrypt password
-    encrypted_password = social_network.password
+    try:
+        encrypted_password = security.rsa_encrypt(social_network.password)
+    except:
+        print("Error en create_social_network")
 
     db_social_network = models.SocialNetwork(
         name=social_network.name,
