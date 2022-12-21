@@ -1,0 +1,6 @@
+account:
+  algorithm: HS256
+  secret_key: <your_secret_key>
+
+social_network:
+  public_rsa_path: <path/to/public/key>
