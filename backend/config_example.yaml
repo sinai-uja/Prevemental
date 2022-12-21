@@ -4,3 +4,4 @@ account:
 
 social_network:
   public_rsa_path: <path/to/public/key>
+  private_rsa_path: <path/to/private/key>

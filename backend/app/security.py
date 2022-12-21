@@ -10,6 +10,8 @@ from Crypto.Cipher import PKCS1_OAEP
 with open("/home/jcollado/projects/prevemental/backend/config.yaml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
+PUBLIC_RSA_PATH = cfg["social_network"]["public_rsa_path"]
+
 # ------- ACCOUNT SECURITY -------
 # to get a new secret key run:
 # openssl rand -hex 32
@@ -38,12 +40,8 @@ def create_access_token(subject: Union[str, Any]):
 
 def rsa_encrypt(plain_text):
     try:
-        print("*"*50)
-        print(plain_text)
         encoded_message = bytes(plain_text, "utf-8")
-        print(encoded_message)
-        print("*"*50)
-        key = RSA.importKey(open("/home/jcollado/id_rsa_alberto.pub").read())
+        key = RSA.importKey(open(PUBLIC_RSA_PATH).read())
         cipher = PKCS1_OAEP.new(key)
         ciphertext = cipher.encrypt(encoded_message)
     except:
