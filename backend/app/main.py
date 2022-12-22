@@ -201,7 +201,8 @@ def get_social_networks(
     return user.social_networks
 
 @app.post(
-    "/users/{user_id}/social-networks", 
+    "/users/{user_id}/social-networks",
+    response_model=schemas.SocialNetwork,
     tags=["Social Network"]
 )
 def create_social_network(
@@ -226,10 +227,9 @@ def create_social_network(
         )        
 
     # Create social network
-    try:
-        social_network = crud.create_social_network(db, social_network, user_id)
-    except:
-        print("AAAAAAGH")
+    social_network = crud.create_social_network(db, social_network, user_id)
+
+    print("DESPUES DE CREAR RED SOCIAL (MAIN)")
 
     return social_network
 
@@ -341,7 +341,11 @@ def upload_scores(
     # Return updated scores
     return new_score
 
-@app.get("/all-social-networks", tags=["Admin"])
+@app.get(
+    "/all-social-networks", 
+    response_model=list[schemas.SocialNetworkDB],
+    tags=["Admin"]
+)
 def get_all_social_networks(
     supervisor: models.Supervisor = Depends(get_current_supervisor),
     db: Session = Depends(get_db)
@@ -352,4 +356,9 @@ def get_all_social_networks(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="You must be admin to use this"
         )
-    return crud.get_all_social_networks(db)
+    social_networks = crud.get_all_social_networks(db)
+    print(type(social_networks))
+    for social_network in social_networks:
+        social_network.__dict__["encrypted_password"] = social_network.__dict__["encrypted_password"].decode("latin-1")
+
+    return social_networks
