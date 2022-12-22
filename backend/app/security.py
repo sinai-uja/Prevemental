@@ -7,7 +7,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 
 
-with open("/home/jcollado/projects/prevemental/backend/config.yaml", "r") as ymlfile:
+with open("../config.yaml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 PUBLIC_RSA_PATH = cfg["social_network"]["public_rsa_path"]
