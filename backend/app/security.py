@@ -1,5 +1,6 @@
 from typing import Any, Union
 import yaml
+import os
 
 from jose import jwt
 from passlib.context import CryptContext
@@ -7,7 +8,10 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 
 
-with open("../config.yaml", "r") as ymlfile:
+cwd = os.path.abspath(os.getcwd())
+config_path = os.path.join(cwd, "config.yaml")
+
+with open(config_path, "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 PUBLIC_RSA_PATH = cfg["social_network"]["public_rsa_path"]
