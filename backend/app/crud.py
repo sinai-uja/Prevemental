@@ -93,10 +93,10 @@ def create_social_network(
     social_network: schemas.SocialNetworkCreate, 
     user_id: int
 ):
-
-    print("PRE ENCRIPTION")
     encrypted_password = security.rsa_encrypt(social_network.password)
-    print("POST ENCRIPTION")
+
+    if not encrypted_password:
+        return False
 
     db_social_network = models.SocialNetwork(
         name=social_network.name,
@@ -107,7 +107,6 @@ def create_social_network(
     db.add(db_social_network)
     db.commit()
     db.refresh(db_social_network)
-    print("POST DB INSERT")
     return db_social_network
 
 def get_social_network(

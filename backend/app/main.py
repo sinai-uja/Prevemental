@@ -222,14 +222,18 @@ def create_social_network(
     # Check if the user is correct
     if user is None or user.supervisor_id != supervisor.id:
         raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Wrong user id"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Wrong user id"
         )        
 
     # Create social network
     social_network = crud.create_social_network(db, social_network, user_id)
 
-    print("DESPUES DE CREAR RED SOCIAL (MAIN)")
+    if not social_network:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Error while encrypting the password"
+        )
 
     return social_network
 

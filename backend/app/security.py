@@ -48,6 +48,8 @@ def rsa_encrypt(plain_text):
         key = RSA.importKey(open(PUBLIC_RSA_PATH).read())
         cipher = PKCS1_OAEP.new(key)
         ciphertext = cipher.encrypt(encoded_message)
+        return ciphertext
     except:
-        print("ERROR!")
-    return ciphertext
+        print("Encoding error!")
+        return None
+    
