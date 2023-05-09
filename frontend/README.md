@@ -16,10 +16,10 @@ Prerequisitos para Windows:
 
 Pasos:
 
-- Clonar: **git clone https://github.com/ajgm0018/bighug-app.git**
+- Clonar: `git clone https://github.com/ajgm0018/bighug-app.git`
 
 - Eliminar el archivo **/package-lock.json** y **node_modules**
 
-- Instalar NPM: **npm install**
+- Instalar NPM: `npm install`
 
-- En el directorio donde se haya clonado el proyecto en consola: **npm start**
+- En el directorio donde se haya clonado el proyecto en consola: `npm start`
